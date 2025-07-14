@@ -7,6 +7,7 @@
   <title>Generic Aadhar Medicals</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   <style>
     body {
       margin: 0;
@@ -36,25 +37,27 @@
       animation: blink 1s infinite;
     }
 
-    header {
-      background: url('shop.jpg') no-repeat center center/cover;
-      height: 300px;
+    .hero {
+      background: url('shop.jpg') center center/cover no-repeat;
+      height: 100vh;
       position: relative;
-      color: white;
-      text-shadow: 2px 2px 5px #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
-    header::before {
-      content: "";
+    .hero-overlay {
+      background: rgba(0, 0, 0, 0.6);
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 1;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
+    .hero-content {
+      color: white;
+      text-align: center;
+      z-index: 2;
+    }
     .owner-photo {
       position: absolute;
       top: 20px;
@@ -67,14 +70,6 @@
       z-index: 3;
     }
 
-    .header-text {
-      position: absolute;
-      bottom: 20px;
-      left: 30px;
-      animation: fadeIn 1s ease-in-out;
-      z-index: 2;
-    }
-
     nav {
       background: #007acc;
       display: flex;
@@ -84,14 +79,12 @@
       top: 0;
       z-index: 1000;
     }
-
     nav a {
       color: white;
       padding: 14px 20px;
       text-decoration: none;
       font-weight: bold;
     }
-
     nav a:hover {
       background: #005fa3;
     }
@@ -100,14 +93,6 @@
       max-width: 1000px;
       margin: auto;
       padding: 40px 20px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s ease-in-out;
-    }
-
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     h2 {
@@ -117,29 +102,17 @@
     }
 
     .card {
-      background: #ffffff;
-      border-left: 6px solid #4caf50;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       padding: 20px;
       margin: 20px 0;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      animation: slideInUp 0.8s ease-in-out;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
       transition: transform 0.3s;
     }
-
     .card:hover {
       transform: scale(1.02);
-    }
-
-    ul { padding-left: 20px; }
-
-    .offer {
-      background: #ffe57f;
-      border-left: 6px solid #ff9800;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
     }
 
     .offer-tag {
@@ -152,18 +125,15 @@
       font-weight: bold;
       animation: pulseTag 1.5s infinite;
     }
-
     .highlight {
       border-left: 6px solid #e91e63;
       background: linear-gradient(135deg, #fff3f3, #ffe5e5);
     }
-
     .highlight-text {
       color: #c62828;
       font-weight: bold;
       font-size: 18px;
     }
-
     .mega-blink {
       background: #e91e63;
       animation: blink 1s infinite;
@@ -179,7 +149,6 @@
       margin-top: 10px;
       transition: background 0.3s;
     }
-
     a.button:hover { background: #005fa3; }
 
     footer {
@@ -188,6 +157,11 @@
       text-align: center;
       padding: 15px;
       margin-top: 40px;
+    }
+    footer i {
+      margin: 0 10px;
+      color: white;
+      font-size: 20px;
     }
 
     .whatsapp-btn {
@@ -203,94 +177,113 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 
-    @keyframes slideInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
-    }
-
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
     }
-
     @keyframes pulseTag {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.1); }
+    }
+
+    .bottom-nav {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: #007acc;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        z-index: 3000;
+      }
+      .bottom-nav a {
+        color: white;
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="floating-offer">💥 Limited Time: 80% OFF All Medicines!</div>
 
-  <header>
-    <img src="owner.jpg" alt="Owner" class="owner-photo" />
-    <div class="header-text">
-      <h1>Generic Aadhar Medicals</h1>
-      <p>Affordable Generic Medicines for Every Family</p>
+  <header class="hero">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <h1>Generic Aadhar Medicals</h1>
+        <p>Affordable Medicines Delivered With Care</p>
+        <a href="#offers" class="button">Explore Offers</a>
+      </div>
     </div>
+    <img src="owner.jpg" alt="Owner" class="owner-photo" />
   </header>
 
   <nav>
     <a href="#home">Home</a>
     <a href="#about">About Us</a>
     <a href="#fever">Fever</a>
-    <a href="#cold">Cold & Cough</a>
+    <a href="#cold">Cold</a>
     <a href="#diabetes">Diabetes</a>
-    <a href="#pain">Pain Relief</a>
-    <a href="#skincare">Skin Care</a>
+    <a href="#pain">Pain</a>
+    <a href="#skincare">Skin</a>
     <a href="#offers">Offers</a>
     <a href="#contact">Contact</a>
   </nav>
 
-  <section id="home"><h2>Welcome</h2><div class="card"><p>Welcome to Generic Aadhar Medicals – your trusted local pharmacy for quality, affordable generic medicines. We are committed to your health and wellness.</p></div></section>
+  <section id="home" data-aos="fade-up"><h2>Welcome</h2><div class="card"><p>Welcome to Generic Aadhar Medicals – your trusted local pharmacy for quality, affordable generic medicines. We are committed to your health and wellness.</p></div></section>
 
-  <section id="about"><h2>About Us</h2><div class="card"><p><strong>Owner:</strong> Shakir Shaik</p><p>We believe in providing the best healthcare support through generic medicines at the lowest prices. With years of trust and dedication, we aim to serve every household with integrity and compassion.</p></div></section>
+  <section id="about" data-aos="fade-up"><h2>About Us</h2><div class="card"><p><strong>Owner:</strong> Shakir Shaik</p><p>We believe in providing the best healthcare support through generic medicines at the lowest prices. With years of trust and dedication, we aim to serve every household with integrity and compassion.</p></div></section>
 
-  <section id="fever"><h2>Fever Medicines</h2><div class="card"><ul><li>Paracetamol</li><li>Calpol</li><li>Dolo 650</li><li>Crocin</li></ul></div></section>
-  <section id="cold"><h2>Cold & Cough Medicines</h2><div class="card"><ul><li>Benadryl</li><li>Ascoril</li><li>Cofsils</li><li>Vicks Vaporub</li></ul></div></section>
-  <section id="diabetes"><h2>Diabetes Medicines</h2><div class="card"><ul><li>Metformin</li><li>Glimepiride</li><li>Janumet</li><li>Glycomet GP</li></ul></div></section>
-  <section id="pain"><h2>Pain Relief</h2><div class="card"><ul><li>Combiflam</li><li>Volini Gel</li><li>Moov Spray</li><li>Brufen</li></ul></div></section>
-  <section id="skincare"><h2>Skin Care</h2><div class="card"><ul><li>Dermadew</li><li>Cetaphil</li><li>Neosporin</li><li>Lacto Calamine</li></ul></div></section>
+  <section id="fever" data-aos="fade-up"><h2>Fever Medicines</h2><div class="card"><ul><li>Paracetamol</li><li>Calpol</li><li>Dolo 650</li><li>Crocin</li></ul></div></section>
+  <section id="cold" data-aos="fade-up"><h2>Cold & Cough</h2><div class="card"><ul><li>Benadryl</li><li>Ascoril</li><li>Cofsils</li><li>Vicks Vaporub</li></ul></div></section>
+  <section id="diabetes" data-aos="fade-up"><h2>Diabetes Medicines</h2><div class="card"><ul><li>Metformin</li><li>Glimepiride</li><li>Janumet</li><li>Glycomet GP</li></ul></div></section>
+  <section id="pain" data-aos="fade-up"><h2>Pain Relief</h2><div class="card"><ul><li>Combiflam</li><li>Volini Gel</li><li>Moov Spray</li><li>Brufen</li></ul></div></section>
+  <section id="skincare" data-aos="fade-up"><h2>Skin Care</h2><div class="card"><ul><li>Dermadew</li><li>Cetaphil</li><li>Neosporin</li><li>Lacto Calamine</li></ul></div></section>
 
-  <section id="offers">
+  <section id="offers" data-aos="fade-up">
     <h2>Current Offers</h2>
-    <div class="card offer highlight">
-      <span class="offer-tag mega-blink">🔥 MEGA</span>
-      <p><strong>💥 Up to <span class="highlight-text">80% OFF</span></strong> on <span class="highlight-text">All Medicines</span> – Limited Time Only!</p>
-    </div>
-    <div class="card offer"><span class="offer-tag">HOT</span><p><strong>🎉 Flat 80% OFF</strong> on all Fever & Cold medicines</p></div>
-    <div class="card offer"><span class="offer-tag">LIMITED</span><p><strong>💊 Buy 2 Get 1 Free</strong> on Pain Relief Sprays</p></div>
-    <div class="card offer"><span class="offer-tag">BEST DEAL</span><p><strong>🩺 Up to 80% OFF</strong> on Diabetes care kits & strips</p></div>
+    <div class="card highlight"><span class="offer-tag mega-blink">🔥 MEGA</span><p><strong>💥 Up to <span class="highlight-text">80% OFF</span></strong> on <span class="highlight-text">All Medicines</span> – Limited Time Only!</p></div>
+    <div class="card"><span class="offer-tag">HOT</span><p><strong>🎉 Flat 80% OFF</strong> on all Fever & Cold medicines</p></div>
+    <div class="card"><span class="offer-tag">LIMITED</span><p><strong>💊 Buy 2 Get 1 Free</strong> on Pain Relief Sprays</p></div>
+    <div class="card"><span class="offer-tag">BEST DEAL</span><p><strong>🩺 Up to 80% OFF</strong> on Diabetes care kits & strips</p></div>
   </section>
 
-  <section id="contact">
+  <section id="contact" data-aos="fade-up">
     <h2>Contact Us</h2>
     <div class="card">
       <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> Trunk Road Ongole</p>
       <p><i class="fas fa-phone"></i> <strong>Phone:</strong> 7675042279</p>
       <p><i class="fas fa-envelope"></i> <strong>Email:</strong> Shakirpharmacy@gmail.com</p>
-      <p><strong>Map:</strong> <a href="https://www.google.com/search?q=Revenue+Ward+No%3A14%2C+Generic+Aadhaar+-Star+Medicals+Store%2C+37-1-319%2C+Trunk+Rd%2C+MaratiPalem%2C+Ongole%2C+Andhra+Pradesh+523001&rlz=1C1CHBF_enIN1063IN1063&oq=Revenue+Ward+No%3A14%2C+Generic+Aadhaar+-Star+Medicals+Store%2C+37-1-319%2C+Trunk+Rd%2C+MaratiPalem%2C+Ongole%2C+Andhra+Pradesh+523001&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRiPAjIHCAIQIRiPAtIBCDEzMTRqMGo3qAIIsAIB8QXe7LwkBZNJdA&sourceid=chrome&ie=UTF-8" class="button" target="_blank">View on Google Maps</a></p>
+      <p><strong>Map:</strong> <a href="https://www.google.com/search?q=Revenue+Ward+No%3A14%2C+Generic+Aadhaar+-Star+Medicals+Store%2C+37-1-319%2C+Trunk+Rd%2C+MaratiPalem%2C+Ongole%2C+Andhra+Pradesh+523001" class="button" target="_blank">View on Google Maps</a></p>
     </div>
   </section>
 
+  <section id="testimonials" data-aos="fade-up">
+    <h2>What Our Customers Say</h2>
+    <div class="card"><p>"Best prices and friendly staff. Highly recommend!" - <strong>Anusha R</strong></p></div>
+    <div class="card"><p>"Got 80% discount on diabetic meds! Thank you!" - <strong>Rahul M</strong></p></div>
+  </section>
+
+  <div class="bottom-nav">
+    <a href="#home"><i class="fas fa-home"></i></a>
+    <a href="#offers"><i class="fas fa-tags"></i></a>
+    <a href="#contact"><i class="fas fa-phone"></i></a>
+  </div>
+
   <a href="https://wa.me/917675042279" class="whatsapp-btn" target="_blank">Chat on WhatsApp</a>
 
-  <footer><p>&copy; 2025 Generic Aadhar Medicals | Shakir Shaik | All Rights Reserved</p></footer>
+  <footer>
+    <p>&copy; 2025 Generic Aadhar Medicals | Shakir Shaik | All Rights Reserved</p>
+    <div>
+      <a href="https://wa.me/917675042279"><i class="fab fa-whatsapp"></i></a>
+      <a href="mailto:Shakirpharmacy@gmail.com"><i class="fas fa-envelope"></i></a>
+    </div>
+  </footer>
 
-  <script>
-    const sections = document.querySelectorAll('section');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-    sections.forEach(section => observer.observe(section));
-  </script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>AOS.init();</script>
 </body>
 </html>
